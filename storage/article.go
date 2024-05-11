@@ -1,9 +1,6 @@
 package storage
 
-import (
-	"blomple/article"
-	"log"
-)
+import "blomple/article"
 
 func (s *Storage) ArticleList() ([]article.Article, error) {
 	const query = "SELECT * FROM article"
@@ -11,16 +8,7 @@ func (s *Storage) ArticleList() ([]article.Article, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		deferErr := rows.Close()
-		if err != nil {
-			if deferErr != nil {
-				log.Printf("ERROR: %v\n", err)
-			}
-			return
-		}
-		err = deferErr
-	}()
+	defer deferErr(rows.Close, &err)
 
 	var articles []article.Article
 	for rows.Next() {

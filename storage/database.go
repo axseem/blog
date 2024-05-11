@@ -1,6 +1,9 @@
 package storage
 
-import "database/sql"
+import (
+	"database/sql"
+	"log"
+)
 
 type Storage struct {
 	db *sql.DB
@@ -22,4 +25,15 @@ func Migrate(db *sql.DB) error {
 
 	_, err := db.Exec(query)
 	return err
+}
+
+func deferErr(fn func() error, err *error) {
+	deferErr := fn()
+	if *err != nil {
+		if deferErr != nil {
+			log.Printf("ERROR: %v\n", *err)
+		}
+		return
+	}
+	*err = deferErr
 }
