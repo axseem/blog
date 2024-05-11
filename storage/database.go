@@ -16,12 +16,12 @@ func New(db *sql.DB) *Storage {
 }
 
 func Migrate(db *sql.DB) error {
-	const query = `CREATE TABLE article (
+	const query = `CREATE TABLE IF NOT EXISTS article (
 	id TEXT PRIMARY KEY,
 	title TEXT NOT NULL,
 	content TEXT NOT NULL,
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);`
+)`
 
 	_, err := db.Exec(query)
 	return err
