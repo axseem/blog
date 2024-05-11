@@ -3,6 +3,7 @@ package main
 import (
 	"blomple/handler"
 	"blomple/storage"
+	"blomple/view"
 	"database/sql"
 	"log"
 	"net/http"
@@ -11,7 +12,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("sqlite", ":memory:")
+	db, err := sql.Open("sqlite", "dev.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,10 +26,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	h := handler.New(*storage.New(db))
+	h := handler.New(storage.New(db), view.NewTemplates())
 
 	root := http.NewServeMux()
 	root.HandleFunc("GET /", h.HomePage)
+	root.HandleFunc("POST /", h.ArticleCreate)
 
 	log.Fatal(http.ListenAndServe(":8080", root))
 }

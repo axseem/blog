@@ -1,19 +1,43 @@
 package storage
 
-import "blomple/article"
+import (
+	"blomple/model"
+	"strings"
+)
 
-func (s *Storage) ArticleList() ([]article.Article, error) {
-	const query = "SELECT * FROM article"
+func (s *Storage) ArticleCreate(article *model.Article) error {
+	const query = "INSERT INTO article (id, title, content) VALUES (?, ?, ?)"
+	_, err := s.db.Exec(query,
+		titleToID(article.Title),
+		article.Title,
+		article.Content,
+	)
+
+	return err
+}
+
+func titleToID(title string) string {
+	return strings.ToLower(
+		strings.ReplaceAll(strings.TrimSpace(title), " ", "_"),
+	)
+}
+
+func (s *Storage) ArticleList() ([]model.Article, error) {
+	const query = "SELECT id, title, created_at FROM article"
 	rows, err := s.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
 	defer deferErr(rows.Close, &err)
 
-	var articles []article.Article
+	var articles []model.Article
 	for rows.Next() {
-		var a article.Article
-		rows.Scan(a)
+		var a model.Article
+		_ = rows.Scan(
+			&a.ID,
+			&a.Title,
+			&a.Content,
+		)
 		articles = append(articles, a)
 	}
 
