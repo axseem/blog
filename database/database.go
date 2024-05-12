@@ -3,6 +3,8 @@ package database
 import (
 	"database/sql"
 	"log"
+
+	_ "modernc.org/sqlite"
 )
 
 type Storage struct {
@@ -36,6 +38,12 @@ func deferErr(fn func() error, err *error) {
 		return
 	}
 	*err = deferErr
+}
+
+func MustDefer(fn func() error) {
+	if err := fn(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func MustOpen(dataSourceName string) *sql.DB {

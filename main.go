@@ -6,17 +6,11 @@ import (
 	"blomple/view"
 	"log"
 	"net/http"
-
-	_ "modernc.org/sqlite"
 )
 
 func main() {
 	db := database.MustOpen("dev.db")
-	defer func() {
-		if err := db.Close(); err != nil {
-			log.Fatal(err)
-		}
-	}()
+	defer database.MustDefer(db.Close)
 
 	if err := database.Migrate(db); err != nil {
 		log.Fatal(err)
