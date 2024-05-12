@@ -6,10 +6,10 @@
   </head>
   <body>
     {{range .}}
-    <a href="{{.ID}}">
-      <h1>{{.Title}}</h1>
-      <p></p>
-    </a>
+    <div>
+      <a href="{{.ID}}"><h1>{{.Title}}</h1></a>
+      <p>{{.CreatedAt.Format "02 Jan 2006"}}</p>
+    </div>
     {{end}}
   </body>
 </html>

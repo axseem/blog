@@ -1,4 +1,4 @@
-package storage
+package database
 
 import (
 	"database/sql"
@@ -9,7 +9,7 @@ type Storage struct {
 	db *sql.DB
 }
 
-func New(db *sql.DB) *Storage {
+func NewStorage(db *sql.DB) *Storage {
 	return &Storage{
 		db: db,
 	}
@@ -36,4 +36,12 @@ func deferErr(fn func() error, err *error) {
 		return
 	}
 	*err = deferErr
+}
+
+func MustOpen(dataSourceName string) *sql.DB {
+	db, err := sql.Open("sqlite", dataSourceName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return db
 }
