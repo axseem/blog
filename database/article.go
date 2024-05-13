@@ -49,11 +49,10 @@ func titleToID(title string) string {
 }
 
 func (s *Storage) ArticleFind(id string) (model.Article, error) {
-	const qurey = "SELECT * FROM article WHERE id = ?"
-	row := s.db.QueryRow(qurey, id)
-
+	const query = "SELECT * FROM article WHERE id = ?"
 	var a model.Article
-	err := row.Scan(
+
+	err := s.db.QueryRow(query, id).Scan(
 		&a.ID,
 		&a.Title,
 		&a.Content,

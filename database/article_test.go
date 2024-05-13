@@ -12,19 +12,19 @@ import (
 func TestArticleList(t *testing.T) {
 	testCases := []struct {
 		desc string
-		seed func(s *database.Storage) error
+		prep func(s *database.Storage) error
 		cond func(articles []model.Article) bool
 	}{
 		{
 			desc: "empty table",
-			seed: func(s *database.Storage) error { return nil },
+			prep: func(s *database.Storage) error { return nil },
 			cond: func(articles []model.Article) bool {
 				return len(articles) == 0
 			},
 		},
 		{
 			desc: "one article",
-			seed: func(s *database.Storage) error {
+			prep: func(s *database.Storage) error {
 				return s.ArticleCreate(&model.Article{Title: "A", Content: "Aaa"})
 			},
 			cond: func(articles []model.Article) bool {
@@ -39,7 +39,7 @@ func TestArticleList(t *testing.T) {
 		},
 		{
 			desc: "several articles",
-			seed: func(s *database.Storage) error {
+			prep: func(s *database.Storage) error {
 				articles := []model.Article{
 					{Title: "A", Content: "Aaa"},
 					{Title: "B", Content: "Bbb"},
@@ -79,18 +79,75 @@ func TestArticleList(t *testing.T) {
 	}
 	for _, tC := range testCases {
 		t.Run(tC.desc, func(t *testing.T) {
-			assert := test.New(t)
-
+			assert := test.NewAssert(t)
 			db := database.MustOpen(":memory:")
 			assert.Nil(database.Migrate(db))
 			defer assert.NilDefer(db.Close)
 			s := database.NewStorage(db)
-			assert.Nil(tC.seed(s))
+			assert.Nil(tC.prep(s))
 
 			articles, err := s.ArticleList()
 			assert.Nil(err)
-
 			assert.True(tC.cond(articles), tC.desc)
 		})
 	}
+}
+
+func TestArticleCreate(t *testing.T) {
+	assert := test.NewAssert(t)
+	db := database.MustOpen(":memory:")
+	assert.Nil(database.Migrate(db))
+	defer assert.NilDefer(db.Close)
+	s := database.NewStorage(db)
+
+	assert.Nil(s.ArticleCreate(&model.Article{
+		Title:   "A",
+		Content: "Aaa",
+	}))
+	want := &model.Article{
+		ID:      "a",
+		Title:   "A",
+		Content: "Aaa",
+	}
+
+	var got model.Article
+
+	const query = "SELECT * FROM article WHERE id = ?"
+	assert.Nil(db.QueryRow(query, want.ID).Scan(
+		&got.ID,
+		&got.Title,
+		&got.Content,
+		&got.CreatedAt,
+	))
+
+	isValid := got.ID == want.ID && got.Title == want.Title && got.Content == want.Content
+	assert.True(isValid, "article create test")
+}
+
+func TestArticleFind(t *testing.T) {
+	assert := test.NewAssert(t)
+	db := database.MustOpen(":memory:")
+	assert.Nil(database.Migrate(db))
+	defer assert.NilDefer(db.Close)
+	s := database.NewStorage(db)
+
+	want := &model.Article{
+		ID:      "a",
+		Title:   "A",
+		Content: "Aaa",
+	}
+
+	const query = "INSERT INTO article (id, title, content) VALUES (?, ?, ?)"
+	_, err := db.Exec(query,
+		want.ID,
+		want.Title,
+		want.Content,
+	)
+	assert.Nil(err)
+
+	got, err := s.ArticleFind(want.ID)
+	assert.Nil(err)
+
+	isValid := got.ID == want.ID && got.Title == want.Title && got.Content == want.Content
+	assert.True(isValid, "article find test")
 }

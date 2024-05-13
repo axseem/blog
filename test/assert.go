@@ -9,7 +9,7 @@ type Assert struct {
 	t *testing.T
 }
 
-func New(t *testing.T) *Assert {
+func NewAssert(t *testing.T) *Assert {
 	return &Assert{t: t}
 }
 
