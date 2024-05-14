@@ -1,9 +1,9 @@
 package database_test
 
 import (
-	"blomple/database"
-	"blomple/model"
-	"blomple/test"
+	"blog/database"
+	"blog/model"
+	"blog/test"
 	"reflect"
 	"testing"
 )

@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"blomple/database"
-	"blomple/model"
-	"blomple/view"
+	"blog/database"
+	"blog/model"
+	"blog/view"
 	"log"
 	"net/http"
 	"strings"

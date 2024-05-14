@@ -1,7 +1,7 @@
 package database
 
 import (
-	"blomple/model"
+	"blog/model"
 	"strings"
 )
 

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"blomple/database"
-	"blomple/handler"
-	"blomple/view"
+	"blog/database"
+	"blog/handler"
+	"blog/view"
 	"log"
 	"net/http"
 )
