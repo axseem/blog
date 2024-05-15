@@ -23,7 +23,13 @@ func Migrate(db *sql.DB) error {
 	title TEXT NOT NULL,
 	content TEXT NOT NULL,
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-)`
+);
+
+CREATE TABLE IF NOT EXISTS author (
+	username TEXT PRIMARY KEY NOT NULL,
+	password BLOB NOT NULL,
+);
+`
 
 	_, err := db.Exec(query)
 	return err

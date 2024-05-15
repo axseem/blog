@@ -8,3 +8,8 @@ type Article struct {
 	Content   string
 	CreatedAt time.Time
 }
+
+type Author struct {
+	Username string
+	Password []byte
+}
