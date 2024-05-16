@@ -27,9 +27,8 @@ func Migrate(db *sql.DB) error {
 
 CREATE TABLE IF NOT EXISTS author (
 	username TEXT PRIMARY KEY NOT NULL,
-	password BLOB NOT NULL,
-);
-`
+	password BLOB NOT NULL
+);`
 
 	_, err := db.Exec(query)
 	return err

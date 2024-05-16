@@ -29,18 +29,18 @@ func (s *Handler) ArticleCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(strings.TrimSpace(article.Title)) == 0 {
-		http.Error(w, "Title can not be empty", 400)
+		http.Error(w, "Title can not be empty", http.StatusBadRequest)
 		return
 	}
 
 	if len(strings.TrimSpace(article.Content)) == 0 {
-		http.Error(w, "Article can not be empty", 400)
+		http.Error(w, "Article can not be empty", http.StatusBadRequest)
 		return
 	}
 
 	if err := s.storage.ArticleCreate(article); err != nil {
 		log.Printf("ERROR: %v\n", err)
-		http.Error(w, "Failed to create article", 500)
+		http.Error(w, "Failed to create article", http.StatusInternalServerError)
 		return
 	}
 

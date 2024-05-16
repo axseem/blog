@@ -3,28 +3,25 @@ package middleware
 import (
 	"blog/database"
 	"net/http"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Middleware struct {
-	storage database.Storage
+	storage *database.Storage
 }
 
-func New() {
-
+func New(storage *database.Storage) *Middleware {
+	return &Middleware{
+		storage: storage,
+	}
 }
 
 func (m *Middleware) Authorized(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		username, password, ok := r.BasicAuth()
 		if ok {
-			passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), 24)
-			if err == nil {
-				if m.storage.ValidAuthor(username, passwordHash) {
-					next.ServeHTTP(w, r)
-					return
-				}
+			if err := m.storage.ValidAuthor(username, password); err == nil {
+				next.ServeHTTP(w, r)
+				return
 			}
 		}
 

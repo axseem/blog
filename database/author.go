@@ -1,21 +1,32 @@
 package database
 
 import (
-	"crypto/subtle"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Storage) ValidAuthor(username string, password []byte) bool {
-	var validPassword []byte
+func (s *Storage) ValidAuthor(username string, password string) error {
+	var validPasswordHash []byte
 
 	const query = "SELECT password FROM author WHERE username = ?"
-	err := s.db.QueryRow(query, username).Scan(&validPassword)
+	err := s.db.QueryRow(query, username).Scan(&validPasswordHash)
 	if err != nil {
-		return false
+		return err
 	}
 
-	if subtle.ConstantTimeCompare(validPassword, password) == 0 {
-		return false
+	if err := bcrypt.CompareHashAndPassword(validPasswordHash, []byte(password)); err != nil {
+		return err
 	}
 
-	return true
+	return nil
+}
+
+func (s *Storage) CreateAuthor(username string, password string) error {
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), 15)
+	if err != nil {
+		return err
+	}
+
+	const query = "INSERT INTO author (username, password) VALUES (?, ?)"
+	_, err = s.db.Exec(query, username, passwordHash)
+	return err
 }

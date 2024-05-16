@@ -3,6 +3,7 @@ package main
 import (
 	"blog/database"
 	"blog/handler"
+	"blog/middleware"
 	"blog/view"
 	"log"
 	"net/http"
@@ -16,12 +17,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	h := handler.New(database.NewStorage(db), view.NewTemplates())
+	s := database.NewStorage(db)
+	h := handler.New(s, view.NewTemplates())
+	m := middleware.New(s)
 
 	root := http.NewServeMux()
 	root.HandleFunc("GET /", h.HomePage)
 	root.HandleFunc("GET /{id}", h.ArticlePage)
-	root.HandleFunc("POST /", h.ArticleCreate)
+	root.HandleFunc("POST /", m.Authorized(h.ArticleCreate))
 
 	log.Fatal(http.ListenAndServe(":8080", root))
 }
