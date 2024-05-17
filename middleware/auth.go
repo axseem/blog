@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"blog/database"
+	"log"
 	"net/http"
 )
 
@@ -16,6 +17,7 @@ func New(storage *database.Storage) *Middleware {
 }
 
 func (m *Middleware) Authorized(next http.HandlerFunc) http.HandlerFunc {
+	log.Println("nice")
 	return func(w http.ResponseWriter, r *http.Request) {
 		username, password, ok := r.BasicAuth()
 		if ok {

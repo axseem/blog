@@ -1,26 +1,30 @@
 package view
 
 import (
+	"embed"
 	_ "embed"
 	"html/template"
+
+	"github.com/gomarkdown/markdown/html"
+	"github.com/gomarkdown/markdown/parser"
 )
 
-//go:embed index.go.html
-var indexPage string
+//go:embed *.html
+var templateFiles embed.FS
 
-//go:embed article.go.html
-var articlePage string
-
-type Templates struct {
-	Index   *template.Template
-	Article *template.Template
+type View struct {
+	Template *template.Template
+	Parser   *parser.Parser
+	Renderer *html.Renderer
 }
 
-func NewTemplates() *Templates {
-	index := template.Must(template.New("index").Parse(indexPage))
-	article := template.Must(template.New("article").Parse(articlePage))
-	return &Templates{
-		Index:   index,
-		Article: article,
+func New() *View {
+	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
+	opts := html.RendererOptions{Flags: html.CommonFlags | html.HrefTargetBlank}
+
+	return &View{
+		Template: template.Must(template.ParseFS(templateFiles, "*")),
+		Parser:   parser.NewWithExtensions(extensions),
+		Renderer: html.NewRenderer(opts),
 	}
 }

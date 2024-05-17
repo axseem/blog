@@ -12,10 +12,10 @@ import (
 
 type Handler struct {
 	storage database.Storage
-	view    view.Templates
+	view    view.View
 }
 
-func New(storage *database.Storage, view *view.Templates) *Handler {
+func New(storage *database.Storage, view *view.View) *Handler {
 	return &Handler{
 		storage: *storage,
 		view:    *view,

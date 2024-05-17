@@ -18,7 +18,7 @@ func main() {
 	}
 
 	s := database.NewStorage(db)
-	h := handler.New(s, view.NewTemplates())
+	h := handler.New(s, view.New())
 	m := middleware.New(s)
 
 	root := http.NewServeMux()
