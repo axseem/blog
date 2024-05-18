@@ -4,6 +4,7 @@ go 1.22.2
 
 require (
 	github.com/gomarkdown/markdown v0.0.0-20240419095408-642f0ee99ae2
+	github.com/yuin/goldmark v1.7.1
 	golang.org/x/crypto v0.23.0
 	modernc.org/sqlite v1.29.9
 )

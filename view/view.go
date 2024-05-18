@@ -5,8 +5,8 @@ import (
 	_ "embed"
 	"html/template"
 
-	"github.com/gomarkdown/markdown/html"
-	"github.com/gomarkdown/markdown/parser"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
 )
 
 //go:embed *.html
@@ -14,17 +14,16 @@ var templateFiles embed.FS
 
 type View struct {
 	Template *template.Template
-	Parser   *parser.Parser
-	Renderer *html.Renderer
+	Markdown goldmark.Markdown
 }
 
 func New() *View {
-	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
-	opts := html.RendererOptions{Flags: html.CommonFlags | html.HrefTargetBlank}
+	md := goldmark.New(
+		goldmark.WithExtensions(extension.GFM),
+	)
 
 	return &View{
 		Template: template.Must(template.ParseFS(templateFiles, "*")),
-		Parser:   parser.NewWithExtensions(extensions),
-		Renderer: html.NewRenderer(opts),
+		Markdown: md,
 	}
 }
