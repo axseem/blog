@@ -1,48 +1,38 @@
 package handler
 
 import (
-	"blog/database"
-	"blog/model"
-	"blog/view"
-	"log"
 	"net/http"
-	"strings"
-	"time"
+
+	_ "embed"
 )
 
-type Handler struct {
-	storage database.Storage
-	view    view.View
-}
-
-func New(storage *database.Storage, view *view.View) *Handler {
-	return &Handler{
-		storage: *storage,
-		view:    *view,
+func Static(page []byte) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		_, err := w.Write(page)
+		if err != nil {
+			code := http.StatusInternalServerError
+			http.Error(w, http.StatusText(code), code)
+			panic(err)
+		}
 	}
 }
 
-func (s *Handler) ArticleCreate(w http.ResponseWriter, r *http.Request) {
-	article := &model.Article{
-		Title:   r.FormValue("title"),
-		Content: r.FormValue("content"),
-	}
+func ArticlePage(articles *map[string][]byte) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.PathValue("id")
 
-	if len(strings.TrimSpace(article.Title)) == 0 {
-		http.Error(w, "Title can not be empty", http.StatusBadRequest)
-		return
-	}
+		article, ok := (*articles)[id]
+		if !ok {
+			code := http.StatusNotFound
+			http.Error(w, http.StatusText(code), code)
+			return
+		}
 
-	if len(strings.TrimSpace(article.Content)) == 0 {
-		http.Error(w, "Article can not be empty", http.StatusBadRequest)
-		return
+		_, err := w.Write(article)
+		if err != nil {
+			code := http.StatusInternalServerError
+			http.Error(w, http.StatusText(code), code)
+			panic(err)
+		}
 	}
-
-	if err := s.storage.ArticleCreate(article); err != nil {
-		log.Printf("ERROR: %v\n", err)
-		http.Error(w, "Failed to create article", http.StatusInternalServerError)
-		return
-	}
-
-	time.Now().Format(time.RFC3339)
 }

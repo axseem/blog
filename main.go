@@ -1,30 +1,37 @@
 package main
 
 import (
-	"blog/database"
+	"blog/article"
 	"blog/handler"
-	"blog/middleware"
+	"blog/static"
 	"blog/view"
 	"log"
 	"net/http"
 )
 
 func main() {
-	db := database.MustOpen("dev.db")
-	defer database.MustDefer(db.Close)
+	// assetsFS := static.Assets()
+	articlesFS := static.Articles()
+	v := view.New()
 
-	if err := database.Migrate(db); err != nil {
-		log.Fatal(err)
+	articles, err := article.ExtractFromFS(&articlesFS, v.Markdown)
+	if err != nil {
+		panic(err)
 	}
 
-	s := database.NewStorage(db)
-	h := handler.New(s, view.New())
-	m := middleware.New(s)
+	indexPage, err := v.GenerateIndexPage(&articles)
+	if err != nil {
+		panic(err)
+	}
+
+	articlePages, err := v.GenerateArticles(&articles)
+	if err != nil {
+		panic(err)
+	}
 
 	root := http.NewServeMux()
-	root.HandleFunc("GET /", h.HomePage)
-	root.HandleFunc("GET /{id}", h.ArticlePage)
-	root.HandleFunc("POST /", m.Authorized(h.ArticleCreate))
+	root.HandleFunc("GET /", handler.Static(indexPage))
+	root.HandleFunc("GET /{id}", handler.ArticlePage(&articlePages))
 
 	log.Fatal(http.ListenAndServe(":8080", root))
 }
