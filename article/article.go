@@ -10,6 +10,7 @@ import (
 
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
+	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 )
 
@@ -26,7 +27,11 @@ func (a Article) ID() string {
 	)
 }
 
-func ExtractFromFS(files fs.FS, md goldmark.Markdown) ([]Article, error) {
+func ExtractFromFS(files fs.FS) ([]Article, error) {
+	md := goldmark.New(
+		goldmark.WithExtensions(extension.GFM, meta.Meta),
+	)
+
 	var articles []Article
 	err := fs.WalkDir(files, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {

@@ -14,7 +14,7 @@ func main() {
 	articlesFS := static.Articles()
 	v := view.New()
 
-	articles, err := article.ExtractFromFS(&articlesFS, v.Markdown)
+	articles, err := article.ExtractFromFS(&articlesFS)
 	if err != nil {
 		panic(err)
 	}
