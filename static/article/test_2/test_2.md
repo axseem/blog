@@ -1,5 +1,5 @@
 ---
-title: Test Article
+title: Test 2
 date: 01.01.2000
 summary: Article for testing purpose
 ---

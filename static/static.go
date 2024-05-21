@@ -4,14 +4,14 @@ import (
 	"embed"
 )
 
-// //go:embed assets
-// var assets embed.FS
+//go:embed assets
+var assets embed.FS
 
-// func Assets() embed.FS {
-// 	return assets
-// }
+func Assets() embed.FS {
+	return assets
+}
 
-//go:embed *.md
+//go:embed article
 var articles embed.FS
 
 func Articles() embed.FS {
