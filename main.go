@@ -10,7 +10,6 @@ import (
 )
 
 func main() {
-	// assetsFS := static.Assets()
 	articlesFS := static.Articles()
 	v := view.New()
 
@@ -29,9 +28,10 @@ func main() {
 		panic(err)
 	}
 
-	root := http.NewServeMux()
-	root.HandleFunc("GET /", handler.Static(indexPage))
-	root.HandleFunc("GET /{id}", handler.ArticlePage(&articlePages))
+	mux := http.NewServeMux()
+	mux.Handle("GET /", http.FileServerFS(static.Static()))
+	mux.HandleFunc("GET /{$}", handler.Static(indexPage))
+	mux.HandleFunc("GET /{id}", handler.ArticlePage(&articlePages))
 
-	log.Fatal(http.ListenAndServe(":8080", root))
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }

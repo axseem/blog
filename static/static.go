@@ -4,11 +4,11 @@ import (
 	"embed"
 )
 
-//go:embed assets
-var assets embed.FS
+//go:embed *
+var static embed.FS
 
-func Assets() embed.FS {
-	return assets
+func Static() embed.FS {
+	return static
 }
 
 //go:embed article
