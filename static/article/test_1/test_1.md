@@ -1,6 +1,6 @@
 ---
 title: Test 1
-date: 01.01.2000
+date: 23.05.2024
 summary: Article for testing purpose
 ---
 
