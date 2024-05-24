@@ -4,16 +4,9 @@ import (
 	"embed"
 )
 
-//go:embed *
+//go:embed assets blog
 var static embed.FS
 
 func Static() embed.FS {
 	return static
-}
-
-//go:embed article
-var articles embed.FS
-
-func Articles() embed.FS {
-	return articles
 }

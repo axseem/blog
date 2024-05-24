@@ -10,10 +10,10 @@ import (
 )
 
 func main() {
-	articlesFS := static.Articles()
+	staticFS := static.Static()
 	v := view.New()
 
-	articles, err := article.ExtractFromFS(&articlesFS)
+	articles, err := article.ExtractFromFS(&staticFS)
 	if err != nil {
 		panic(err)
 	}
@@ -29,9 +29,9 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.Handle("GET /", http.FileServerFS(static.Static()))
+	mux.Handle("GET /", http.FileServerFS(&staticFS))
 	mux.HandleFunc("GET /{$}", handler.Static(indexPage))
-	mux.HandleFunc("GET /article/{id}/{$}", handler.ArticlePage(&articlePages))
+	mux.HandleFunc("GET /blog/{id}/{$}", handler.ArticlePage(&articlePages))
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }

@@ -8,9 +8,7 @@
   <body>
     {{range .}}
     <div>
-      <a href="./article/{{.ID}}/"
-        ><h2 style="margin-bottom: 0">{{.Title}}</h2></a
-      >
+      <a href="./blog/{{.ID}}/"><h2 style="margin-bottom: 0">{{.Title}}</h2></a>
       <p style="margin: 0" class="date">{{.Date.Format "January 1, 2006"}}</p>
     </div>
     {{end}}
