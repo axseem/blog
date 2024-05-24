@@ -121,7 +121,7 @@ Right aligned columns
 
 [link text](http://example.com)
 
-[local link](./someimg.png)
+[local link](hulatocat.gif)
 
 [link with title](http://example.com "title text!")
 
@@ -130,6 +130,10 @@ Autoconverted link http://example.com (enable linkify to see)
 ## Images
 
 ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+
+Local gif
+
+![Hulatocat](./hulatocat.gif)
 
 Like links, Images also have a footnote style syntax
 

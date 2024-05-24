@@ -2,14 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Blomple</title>
+    <title>axseem.dev</title>
     <link rel="stylesheet" href="/assets/styles.css" />
   </head>
   <body>
     {{range .}}
     <div>
-      <a href="{{.ID}}"><h1>{{.Title}}</h1></a>
-      <p>{{.Date.Format "02 Jan 2006"}}</p>
+      <a href="./article/{{.ID}}/"
+        ><h2 style="margin-bottom: 0">{{.Title}}</h2></a
+      >
+      <p style="margin: 0" class="date">{{.Date.Format "January 1, 2006"}}</p>
     </div>
     {{end}}
   </body>

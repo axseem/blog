@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="/assets/styles.css" />
   </head>
   <body>
-    <a href="/">home</a>
-    <h1>{{.Title}}</h1>
-    <p>{{.Date.Format "02 Jan 2006"}}</p>
+    <a href="/">Back</a>
+    <h1 style="margin-bottom: 0">{{.Title}}</h1>
+    <p class="date" style="margin: 0 0 2rem 0">
+      {{.Date.Format "January 1, 2006"}} by axseem
+    </p>
     <p>{{.Content}}</p>
   </body>
 </html>

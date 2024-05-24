@@ -5,6 +5,7 @@ import (
 	"errors"
 	"html/template"
 	"io/fs"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -38,6 +39,9 @@ func ExtractFromFS(files fs.FS) ([]Article, error) {
 			return err
 		}
 		if d.IsDir() {
+			return nil
+		}
+		if filepath.Ext(path) != ".md" {
 			return nil
 		}
 

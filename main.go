@@ -31,7 +31,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("GET /", http.FileServerFS(static.Static()))
 	mux.HandleFunc("GET /{$}", handler.Static(indexPage))
-	mux.HandleFunc("GET /{id}", handler.ArticlePage(&articlePages))
+	mux.HandleFunc("GET /article/{id}/{$}", handler.ArticlePage(&articlePages))
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }
