@@ -1,11 +1,12 @@
 package view
 
 import (
-	"blog/article"
 	"bytes"
 	"embed"
 	_ "embed"
 	"html/template"
+
+	"github.com/axseem/website/article"
 )
 
 //go:embed *.html

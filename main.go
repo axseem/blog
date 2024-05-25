@@ -1,12 +1,13 @@
 package main
 
 import (
-	"blog/article"
-	"blog/handler"
-	"blog/static"
-	"blog/view"
 	"log"
 	"net/http"
+
+	"github.com/axseem/website/article"
+	"github.com/axseem/website/handler"
+	"github.com/axseem/website/static"
+	"github.com/axseem/website/view"
 )
 
 func main() {
