@@ -17,8 +17,8 @@ import (
 
 type Article struct {
 	Title   string
-	Date    time.Time
 	Summary string
+	Date    time.Time
 	Content template.HTML
 }
 
@@ -29,19 +29,14 @@ func (a Article) ID() string {
 }
 
 func ExtractFromFS(files fs.FS) ([]Article, error) {
-	md := goldmark.New(
-		goldmark.WithExtensions(extension.GFM, meta.Meta),
-	)
+	md := goldmark.New(goldmark.WithExtensions(extension.GFM, meta.Meta))
 
 	var articles []Article
 	err := fs.WalkDir(files, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
-		if d.IsDir() {
-			return nil
-		}
-		if filepath.Ext(path) != ".md" {
+		if d.IsDir() || filepath.Ext(path) != ".md" {
 			return nil
 		}
 
@@ -49,32 +44,11 @@ func ExtractFromFS(files fs.FS) ([]Article, error) {
 		if err != nil {
 			return err
 		}
-
-		var buf bytes.Buffer
-		context := parser.NewContext()
-		if err := md.Convert(articleRaw, &buf, parser.WithContext(context)); err != nil {
-			return err
-		}
-		metaData := meta.Get(context)
-		keys := [...]string{"title", "date", "summary"}
-		if err := validateMetadata(metaData, keys[:]); err != nil {
-			return err
-		}
-
-		title, _ := metaData["title"].(string)
-		dateRaw, _ := metaData["date"].(string)
-		date, err := time.Parse("02.01.2006", dateRaw)
+		article, err := markdownToArticle(md, &articleRaw)
 		if err != nil {
 			return err
 		}
-		summary, _ := metaData["summary"].(string)
-
-		articles = append(articles, Article{
-			Title:   title,
-			Date:    date,
-			Summary: summary,
-			Content: template.HTML(buf.String()),
-		})
+		articles = append(articles, article)
 
 		return nil
 	})
@@ -83,6 +57,43 @@ func ExtractFromFS(files fs.FS) ([]Article, error) {
 	}
 
 	return articles, nil
+}
+
+func markdownToArticle(md goldmark.Markdown, file *[]byte) (Article, error) {
+	buf, metaData, err := parseMarkdown(md, file)
+	if err != nil {
+		return Article{}, err
+	}
+	keys := [...]string{"title", "date", "summary"}
+	if err := validateMetadata(metaData, keys[:]); err != nil {
+		return Article{}, err
+	}
+
+	title, _ := metaData["title"].(string)
+	summary, _ := metaData["summary"].(string)
+	dateRaw, _ := metaData["date"].(string)
+	date, err := time.Parse("02.01.2006", dateRaw)
+	if err != nil {
+		return Article{}, err
+	}
+
+	return Article{
+		Title:   title,
+		Summary: summary,
+		Date:    date,
+		Content: template.HTML(buf.String()),
+	}, nil
+}
+
+func parseMarkdown(md goldmark.Markdown, file *[]byte) (bytes.Buffer, map[string]interface{}, error) {
+	var buf bytes.Buffer
+	context := parser.NewContext()
+	if err := md.Convert(*file, &buf, parser.WithContext(context)); err != nil {
+		return bytes.Buffer{}, nil, err
+	}
+	metaData := meta.Get(context)
+
+	return buf, metaData, nil
 }
 
 func validateMetadata(m map[string]interface{}, keys []string) error {

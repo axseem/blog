@@ -2,41 +2,35 @@ package view
 
 import (
 	"bytes"
-	"embed"
 	_ "embed"
 	"html/template"
 
 	"github.com/axseem/website/article"
 )
 
-//go:embed *.html
-var templateFiles embed.FS
+//go:embed index.html
+var indexTemplate string
 
-type View struct {
-	Template *template.Template
-}
-
-func New() *View {
-	return &View{
-		Template: template.Must(template.ParseFS(templateFiles, "*")),
-	}
-}
-
-func (v View) GenerateIndexPage(articles *[]article.Article) ([]byte, error) {
+func GenerateIndexPage(articles *[]article.Article) ([]byte, error) {
 	var buf bytes.Buffer
 
-	if err := v.Template.ExecuteTemplate(&buf, "index.html", articles); err != nil {
+	t := template.Must(template.New("").Parse(indexTemplate))
+	if err := t.ExecuteTemplate(&buf, "", articles); err != nil {
 		return nil, err
 	}
 	return buf.Bytes(), nil
 }
 
-func (v View) GenerateArticles(articles *[]article.Article) (map[string][]byte, error) {
+//go:embed article.html
+var articleTemplate string
+
+func GenerateArticles(articles *[]article.Article) (map[string][]byte, error) {
 	pages := make(map[string][]byte)
 
+	t := template.Must(template.New("").Parse(articleTemplate))
 	for _, article := range *articles {
 		var buf bytes.Buffer
-		if err := v.Template.ExecuteTemplate(&buf, "article.html", article); err != nil {
+		if err := t.ExecuteTemplate(&buf, "", article); err != nil {
 			return nil, err
 		}
 		pages[article.ID()] = buf.Bytes()

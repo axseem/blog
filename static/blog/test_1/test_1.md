@@ -1,7 +1,7 @@
 ---
 title: Test 1
-date: 23.05.2024
 summary: Article for testing purpose
+date: 23.05.2024
 ---
 
 # h1 Heading

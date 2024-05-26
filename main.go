@@ -12,19 +12,18 @@ import (
 
 func main() {
 	staticFS := static.Static()
-	v := view.New()
 
 	articles, err := article.ExtractFromFS(&staticFS)
 	if err != nil {
 		panic(err)
 	}
 
-	indexPage, err := v.GenerateIndexPage(&articles)
+	indexPage, err := view.GenerateIndexPage(&articles)
 	if err != nil {
 		panic(err)
 	}
 
-	articlePages, err := v.GenerateArticles(&articles)
+	articlePages, err := view.GenerateArticles(&articles)
 	if err != nil {
 		panic(err)
 	}
@@ -32,7 +31,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("GET /", http.FileServerFS(&staticFS))
 	mux.HandleFunc("GET /{$}", handler.Static(indexPage))
-	mux.HandleFunc("GET /blog/{id}/{$}", handler.ArticlePage(&articlePages))
+	mux.HandleFunc("GET /blog/{id}/{$}", handler.Articles(&articlePages))
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }

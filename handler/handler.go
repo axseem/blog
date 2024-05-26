@@ -17,7 +17,7 @@ func Static(page []byte) func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ArticlePage(articles *map[string][]byte) func(w http.ResponseWriter, r *http.Request) {
+func Articles(articles *map[string][]byte) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.PathValue("id")
 
