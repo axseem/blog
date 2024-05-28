@@ -1,30 +1,30 @@
 html,
 body {
-  background-color: #09090b;
-  min-height: 100%;
+	background-color: #09090b;
+	min-height: 100%;
 }
 
 img {
-  max-width: 100%;
+	max-width: 100%;
 }
 
 hr {
-  border: none;
-  border-top: 2px solid #27272a;
+	border: none;
+	border-top: 2px solid #27272a;
 }
 
 ul,
 ol {
-  padding-left: 1.25rem;
+	padding-left: 1.25rem;
 }
 
 body {
-  color: #e4e4e7;
-  font-family: Geist, Inter, sans-serif;
-  line-height: 1.5;
-  margin: 4rem auto 8rem;
-  max-width: 44rem;
-  padding: 1rem;
+	color: #e4e4e7;
+	font-family: Geist, Inter, sans-serif;
+	line-height: 1.5;
+	margin: 4rem auto 8rem;
+	max-width: 44rem;
+	padding: 1rem;
 }
 
 h1,
@@ -34,61 +34,61 @@ h4,
 h5,
 h6,
 strong {
-  color: #fff;
-  text-decoration-color: #fff;
+	color: #fff;
+	text-decoration-color: #fff;
 }
 
 a,
 a > h2 {
-  color: #0ea5e9;
+	color: #0ea5e9;
 }
 
 pre {
-  border-radius: 0.5rem;
-  padding: 1rem;
-  white-space: break-spaces;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	white-space: break-spaces;
 }
 
 pre,
 code {
-  background-color: #18181b;
-  border: 1px solid #27272a;
-  tab-size: 4;
+	background-color: #18181b;
+	border: 1px solid #27272a;
+	tab-size: 4;
 }
 
 code {
-  border-radius: 0.25rem;
-  padding: 0.1rem 0.2rem;
-  margin: 0rem 0.125rem;
+	border-radius: 0.25rem;
+	padding: 0.1rem 0.2rem;
+	margin: 0rem 0.125rem;
 }
 
 pre > code {
-  padding: 0;
-  background-color: transparent;
-  border: none;
+	padding: 0;
+	background-color: transparent;
+	border: none;
 }
 
 blockquote {
-  background-color: #18181b;
-  border-radius: 0.5rem;
-  border-left: 0.5rem solid #27272a;
-  padding: 1px 1rem;
-  margin: 0;
+	background-color: #18181b;
+	border-radius: 0.5rem;
+	border-left: 0.5rem solid #27272a;
+	padding: 1px 1rem;
+	margin: 0;
 }
 
 table,
 th,
 td {
-  border: 1px solid;
-  padding: 0.75rem;
-  border-color: #27272a;
+	border: 1px solid;
+	padding: 0.75rem;
+	border-color: #27272a;
 }
 
 table {
-  border-collapse: collapse;
+	border-collapse: collapse;
 }
 
 .date {
-  color: #d4d4d8;
-  font-size: 0.875rem;
+	color: #d4d4d8;
+	font-size: 0.875rem;
 }

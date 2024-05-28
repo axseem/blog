@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>axseem.dev</title>
-    <link rel="stylesheet" href="/assets/styles.css" />
-  </head>
-  <body>
-    <div style="padding-bottom: 2rem">
-      <h1>axseem</h1>
-      <p>
-        Hi, my name is Max, I am a software enginier striving to build
-        efficient, scalable and robust software. Currently mastering Go, while
-        learning about Zig, Rust and low-level programming in spare time.
-        Weclome to my personal website.
-      </p>
-      <p>
-        You can find me at:
-        <a href="https://github.com/axseem">GitHub</a>
-        <a href="https://instagram.com/axseem">Instagram</a>
-        <a href="https://x.com/theaxseem">Twitter</a>
-      </p>
-    </div>
-    <h1>Blog</h1>
-    {{range .}}
-    <div>
-      <a href="./blog/{{.ID}}/"><h2 style="margin-bottom: 0">{{.Title}}</h2></a>
-      <p style="margin: 0" class="date">{{.Date.Format "January 1, 2006"}}</p>
-    </div>
-    {{end}}
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<title>axseem.dev</title>
+		<link rel="stylesheet" href="/assets/styles.css" />
+	</head>
+	<body>
+		<div style="padding-bottom: 2rem">
+			<h1>axseem</h1>
+			<p>
+				Hi, my name is Max, I am a software engineer striving to build
+				efficient, scalable and robust software. Currently mastering Go, while
+				learning about Zig, Rust and low-level programming in spare time.
+				Welcome to my personal website.
+			</p>
+			<p>
+				You can find me at:
+				<a href="https://github.com/axseem">GitHub</a>
+				<a href="https://instagram.com/axseem">Instagram</a>
+				<a href="https://x.com/theaxseem">Twitter</a>
+			</p>
+		</div>
+		<h1>Blog</h1>
+		{{range .}}
+		<div>
+			<a href="./blog/{{.ID}}/"><h2 style="margin-bottom: 0">{{.Title}}</h2></a>
+			<p style="margin: 0">{{.Summary}}</p>
+			<p style="margin: 0" class="date">{{.Date.Format "January 1, 2006"}}</p>
+		</div>
+		{{end}}
+	</body>
 </html>
