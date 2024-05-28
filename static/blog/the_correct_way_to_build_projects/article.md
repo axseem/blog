@@ -4,7 +4,7 @@ date: 25.05.2024
 summary: The story of me developing a personal website with a blog in the simplest way possible
 ---
 
-![preview](preview.png)
+![preview](preview.svg)
 
 Nowadays it's unreasonably hard to build web projects. Not a long time ago it was ok to use statically served HTML with a bunch of self-written CSS and JS files. Unfortunately, time has changed and almost every website seems to have a whole bunch of technologies and services amount of which exceeds the number of website users. So let's try to build a personal website with a built-in blog the simplest way possible.
 
