@@ -1,0 +1,17 @@
+.title {
+	margin-bottom: 0.25rem;
+}
+
+.summary,
+.date {
+	margin: 0;
+}
+
+.date {
+	font-size: 0.875rem;
+	color: #a1a1aa;
+}
+
+#about {
+	margin-bottom: 4rem;
+}

@@ -70,7 +70,7 @@ func (a Article) ID() string {
 The next unavoidable thing is markdown parsing. For that, I'm gonna use [yuin/goldmark](https://github.com/yuin/goldmark) package. The plan is to walk through a directory, read all the `.md` files, extract all the metadata and convert the content to HTML.
 
 ```go
-// error checking are skiped in sake of readability
+// error checking is skipped for the sake of readability
 func ExtractFromFS(files fs.FS) ([]Article, error) {
 	md := goldmark.New(goldmark.WithExtensions(extension.GFM, meta.Meta))
 
