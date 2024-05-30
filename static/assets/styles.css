@@ -1,30 +1,26 @@
-html,
-body {
-	background-color: #09090b;
-	min-height: 100%;
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
-img {
-	max-width: 100%;
+:root {
+	color-scheme: dark;
 }
 
-hr {
-	border: none;
-	border-top: 2px solid #27272a;
-}
-
-ul,
-ol {
-	padding-left: 1.25rem;
+html {
+	font-family: Geist, Inter -apple-system, "Segoe UI", Roboto, sans-serif;
+	tab-size: 4;
 }
 
 body {
-	color: #e4e4e7;
-	font-family: Geist, Inter, sans-serif;
+	font-size: 1rem;
 	line-height: 1.5;
-	margin: 4rem auto 8rem;
-	max-width: 44rem;
-	padding: 1rem;
+	max-width: 46rem;
+	margin: auto;
+	color: #e4e4e7;
+	background-color: #09090b;
+	padding: 2rem 1rem;
 }
 
 h1,
@@ -32,63 +28,108 @@ h2,
 h3,
 h4,
 h5,
-h6,
-strong {
-	color: #fff;
-	text-decoration-color: #fff;
+h6 {
+	line-height: 1.15;
+	font-weight: 700;
+	margin: 2rem 0 1rem 0;
+	word-wrap: break-word;
 }
 
-a,
-a > h2 {
-	color: #0ea5e9;
+h1 {
+	font-size: 2rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+}
+
+h4 {
+	font-size: 1rem;
+}
+
+h5 {
+	font-size: 0.875rem;
+}
+
+h6 {
+	font-size: 0.75rem;
+}
+
+p {
+	margin: 1rem 0;
+}
+
+hr {
+	border: none;
+	border-top: 2px solid #27272a;
+}
+
+a {
+	color: #38bdf8;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+ul {
+	padding-left: 1rem;
+	margin: 1rem 0;
+}
+
+blockquote {
+	padding: 1px 1rem;
+	border-left: 0.5rem solid #27272a;
+	border-radius: 0.5rem;
+	margin: 1rem 0;
+	background-color: #18181b;
+}
+
+img {
+	border-radius: 0.5rem;
+	height: auto;
+	max-width: 100%;
+}
+
+pre,
+code {
+	font-size: 0.8125rem;
+	background-color: #18181b;
+	border: 1px solid #27272a;
 }
 
 pre {
 	border-radius: 0.5rem;
 	padding: 1rem;
-	overflow: auto;
-}
-
-pre,
-code {
-	background-color: #18181b;
-	border: 1px solid #27272a;
-	tab-size: 4;
+	overflow-x: auto;
+	margin: 1rem 0;
 }
 
 code {
 	border-radius: 0.25rem;
 	padding: 0.1rem 0.2rem;
-	margin: 0rem 0.125rem;
+	white-space: pre-wrap;
 }
 
 pre > code {
 	padding: 0;
 	background-color: transparent;
+	white-space: pre;
 	border: none;
-}
-
-blockquote {
-	background-color: #18181b;
-	border-radius: 0.5rem;
-	border-left: 0.5rem solid #27272a;
-	padding: 1px 1rem;
-	margin: 0;
 }
 
 table,
 th,
 td {
-	border: 1px solid;
-	padding: 0.75rem;
-	border-color: #27272a;
+	border: 1px solid #27272a;
+	padding: 0.5rem;
 }
 
 table {
 	border-collapse: collapse;
-}
-
-.date {
-	color: #d4d4d8;
-	font-size: 0.875rem;
+	margin: 1rem 0;
 }
