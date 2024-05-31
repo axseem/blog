@@ -21,7 +21,7 @@ func GenerateIndexPage(articles *[]article.Article) error {
 		return err
 	}
 
-	path := filepath.Join("static", "blog", "index.html")
+	path := filepath.Join("static", "index.html")
 	if err := os.WriteFile(path, buf.Bytes(), 0666); err != nil {
 		return err
 	}
