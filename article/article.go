@@ -36,7 +36,8 @@ func ExtractFromFS(files fs.FS) ([]Article, error) {
 		if err != nil {
 			return err
 		}
-		if d.IsDir() || filepath.Ext(path) != ".md" {
+
+		if d.IsDir() || filepath.Base(path) != "article.md" {
 			return nil
 		}
 
@@ -48,6 +49,12 @@ func ExtractFromFS(files fs.FS) ([]Article, error) {
 		if err != nil {
 			return err
 		}
+
+		dirs := strings.Split(filepath.ToSlash(filepath.Dir(path)), "/")
+		if dirs[len(dirs)-1] != article.ID() {
+			return errors.New("article dir name must be equal to article id")
+		}
+
 		articles = append(articles, article)
 
 		return nil
