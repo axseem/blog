@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+	"net/http"
 	"os"
 
 	"github.com/axseem/website/article"
@@ -24,4 +26,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	http.Handle("GET /", http.FileServerFS(staticFS))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
